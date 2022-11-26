@@ -168,18 +168,13 @@ public class Validator {
 
         int rowIncrementer = rowLen/unsignedRowLen;
         int columnIncrementer = colLen/unsignedColLen;
-
-        System.out.println(">> "+rowIncrementer+"  >> "+columnIncrementer);
-
         int i = fromLocation[0];
         int j = fromLocation[1];
         do{
             i += rowIncrementer;
             j += columnIncrementer;
-
-            System.out.println("[] :: ["+i+","+j+"]");
             if(board[i][j] != CHESS_PIECES.e) return false;
-        }while (i!=toLocation[0]-1&&j!=toLocation[1]-1);
+        }while ((i!=toLocation[0]-rowIncrementer) && (j!=toLocation[1]-columnIncrementer));
         return true;
     }
 }
