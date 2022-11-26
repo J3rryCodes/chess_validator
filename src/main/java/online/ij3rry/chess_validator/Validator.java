@@ -32,9 +32,27 @@ public class Validator {
             return Boolean.FALSE;
         }
 
+        movePiece(fromLocation,toLocation);
+
+        if(isCheckExist()){
+            movePiece(toLocation,fromLocation);
+            return Boolean.FALSE;
+        }
+
         System.out.println("<<VALIDATION COMPLETED :: Valid Move>>");
         return Boolean.TRUE;
     }
+
+    private boolean isCheckExist() {
+        // need to add code
+        return false;
+    }
+
+    private void movePiece(int[] fromLocation,int[] toLocation) {
+        board[toLocation[0]][toLocation[1]] = board[fromLocation[0]][fromLocation[1]];
+        board[fromLocation[0]][fromLocation[1]] = CHESS_PIECES.e;
+    }
+
     private boolean checkFromLocationIsNotEmpty(){
         return board[fromLocation[0]][fromLocation[1]]!=CHESS_PIECES.e;
     }
