@@ -50,8 +50,8 @@ public class Validator {
     private PIECE_COLOR getColor(int[] location, CHESS_PIECES[][] board){
         CHESS_PIECES piece = board[location[0]][location[1]];
         if(piece.ordinal()==0) return PIECE_COLOR.space;
-        if(piece.ordinal()<6) return PIECE_COLOR.white;
-        if(piece.ordinal()<11) return PIECE_COLOR.black;
+        if(piece.ordinal()<7) return PIECE_COLOR.white;
+        if(piece.ordinal()<13) return PIECE_COLOR.black;
         else return PIECE_COLOR.none;
     }
 
@@ -76,14 +76,14 @@ public class Validator {
             case b:
                 System.out.println("Bishop");
                 return isPossibleBishopMove(fromLocation,toLocation,board);
-            case K:
-            case k:
-                System.out.println("King");
-                break;
             case Q:
             case q:
                 System.out.println("Queen");
-                break;
+                return isPossibleQueenMove(fromLocation,toLocation,board);
+            case K:
+            case k:
+                System.out.println("King");
+                return isPossibleKingMove(fromLocation,toLocation,board);
         }
         return false;
     }
@@ -176,5 +176,27 @@ public class Validator {
             if(board[i][j] != CHESS_PIECES.e) return false;
         }while ((i!=toLocation[0]-rowIncrementer) && (j!=toLocation[1]-columnIncrementer));
         return true;
+    }
+
+    private boolean isPossibleQueenMove(int[] fromLocation,int[] toLocation,CHESS_PIECES[][] board){
+        return isPossibleBishopMove(fromLocation,toLocation,board) && isPossibleRookMove(fromLocation,toLocation,board);
+    }
+
+    private boolean isPossibleKingMove(int[] fromLocation,int[] toLocation,CHESS_PIECES[][] board){
+
+        CHESS_PIECES enemyKing = getColor(fromLocation,board) == PIECE_COLOR.black ? CHESS_PIECES.K : CHESS_PIECES.k;
+        if(toLocation[0]+1 <= 7 && board[toLocation[0]+1][toLocation[1]] == enemyKing) return false;
+        if(toLocation[0]+1 <= 7 && toLocation[1]+1 <= 7 && board[toLocation[0]+1][toLocation[1]+1] == enemyKing) return false;
+        if(toLocation[0]+1 <= 7 && toLocation[1]-1 >= 0 && board[toLocation[0]+1][toLocation[1]-1] == enemyKing) return false;
+        if(toLocation[0]-1 >= 0 && toLocation[1]+1 <= 7 && board[toLocation[0]-1][toLocation[1]+1] == enemyKing) return false;
+        if(toLocation[0]-1 >= 0 && toLocation[1]-1 >= 0 && board[toLocation[0]-1][toLocation[1]-1] == enemyKing) return false;
+        if(toLocation[0]-1 >= 0 && board[toLocation[0]-1][toLocation[1]] == enemyKing) return false;
+        if(toLocation[1]+1 <= 7 && board[toLocation[0]][toLocation[1]+1] == enemyKing) return false;
+        if(toLocation[1]-1 >= 0 && board[toLocation[0]][toLocation[1]-1] == enemyKing) return false;
+
+        int rowMoveLen = fromLocation[0] - toLocation[0];
+        int colMoveLen = fromLocation[1] - toLocation[1];
+
+        return (rowMoveLen == 1 || rowMoveLen == -1 || rowMoveLen == 0) && (colMoveLen == 1 || colMoveLen == -1 || colMoveLen == 0);
     }
 }
