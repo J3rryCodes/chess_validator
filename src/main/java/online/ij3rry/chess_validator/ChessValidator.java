@@ -3,16 +3,18 @@ package online.ij3rry.chess_validator;
 import online.ij3rry.chess_validator.enums.CHESS_PIECES;
 import online.ij3rry.chess_validator.enums.PIECE_COLOR;
 
-public class Validator {
+public class ChessValidator {
 
     private int[] fromLocation;
     private int[] toLocation;
     private CHESS_PIECES[][] board;
 
-    public Validator(int[] fromLocation,int[] toLocation,CHESS_PIECES[][] board){
+    public ChessValidator(int[] fromLocation, int[] toLocation, CHESS_PIECES[][] board){
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
         this.board = board;
+
+        System.out.println("From Location   :  "+board[fromLocation[0]][fromLocation[1]]+"\nTo Location   :  "+board[toLocation[0]][toLocation[1]]);
     }
     public Boolean validateMovement(){
         if(!checkFromLocationIsNotEmpty()){
@@ -197,7 +199,7 @@ public class Validator {
     }
 
     private boolean isPossibleQueenMove(int[] fromLocation,int[] toLocation,CHESS_PIECES[][] board){
-        return isPossibleBishopMove(fromLocation,toLocation,board) && isPossibleRookMove(fromLocation,toLocation,board);
+        return isPossibleBishopMove(fromLocation,toLocation,board) || isPossibleRookMove(fromLocation,toLocation,board);
     }
 
     private boolean isPossibleKingMove(int[] fromLocation,int[] toLocation,CHESS_PIECES[][] board){
